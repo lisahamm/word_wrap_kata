@@ -1,28 +1,30 @@
 require './lib/word_wrap'
 
 describe "Word wrap" do
-  it "should empty string" do
-    expect(WordWrap.wrap("", 0)).to eq ""
+  it "should wrap an empty string" do
+    expect(WordWrap.wrap("", 1)).to eq ""
   end
   it "should wrap a string shorter than the line length" do
-    expect(WordWrap.wrap("hello", 6)).to eq "hello"
+    expect(WordWrap.wrap("word", 10)).to eq "word"
   end
-  it "should wrap a word longer than the line length" do
-    expect(WordWrap.wrap("hello", 3)).to eq "hel\nlo"
+  it "should wrap a one word string longer than the line length onto the next line" do
+    expect(WordWrap.wrap("word", 2)).to eq "wo\nrd"
   end
-  it "should wrap a word longer than 2 line lengths" do
-    expect(WordWrap.wrap("hello", 2)).to eq "he\nll\no"
+  it "should wrap a one word string longer than the line length onto multiple lines" do
+    expect(WordWrap.wrap("onelongword", 2)).to eq "on\nel\non\ngw\nor\nd"
   end
-  it "should wrap on a space" do
-    expect(WordWrap.wrap("word word", 4)).to eq "word\nword"
+  it "should wrap a string on word boundary" do
+    expect(WordWrap.wrap("word word", 5)).to eq "word\nword"
   end
-  it "should wrap on word boundry" do
+  it "should wrap a string after word boundary" do
     expect(WordWrap.wrap("word word", 6)).to eq "word\nword"
   end
-  it "should wrap multiple words on the same line" do
-    expect(WordWrap.wrap("word word four", 11)).to eq "word word\nfour"
+  it "should wrap a string well before word boundary" do
+    expect(WordWrap.wrap("word word", 3)).to eq "wor\nd\nwor\nd"
   end
-  it "should wrap multiple words on the same line" do
-    expect(WordWrap.wrap("word word four four", 9)).to eq "word word\nfour four"
+  it "should wrap a string just before word boundary" do
+    expect(WordWrap.wrap("word word", 4)).to eq "word\nword"
   end
+
+
 end
