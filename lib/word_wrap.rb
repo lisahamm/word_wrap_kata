@@ -1,13 +1,23 @@
+class String
+  def last_index_of(character)
+    (self.length - 1) - self.reverse.index(character)
+  end
+
+  def remainder_from(index)
+    self[index..-1]
+  end
+end
+
 module WordWrap
-  def self.wrap(string, line_length)
-    return string if string.length <= line_length
-    if string[0...line_length].index(" ") != nil
-      space_index = (line_length-1) - string[0...line_length].reverse.index(" ")
-      string[0...space_index] + "\n" + wrap(string[space_index+1..-1], line_length)
-    elsif string[line_length] == " "
-      string[0...line_length] + "\n" + wrap(string[line_length+1..-1], line_length)
+  def self.wrap(string, line_width)
+    return string if string.length <= line_width
+    if string[0...line_width].index(" ") != nil
+      space_index = string[0...line_width].last_index_of(" ")
+      string[0...space_index] + "\n" + wrap(string.remainder_from(space_index+1), line_width)
+    elsif string[line_width] == " "
+      string[0...line_width] + "\n" + wrap(string.remainder_from(line_width+1), line_width)
     else
-      string[0...line_length] + "\n" + wrap(string[line_length..-1], line_length)
+      string[0...line_width] + "\n" + wrap(string.remainder_from(line_width), line_width)
     end
   end
 end
