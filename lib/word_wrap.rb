@@ -1,6 +1,9 @@
+class WordWrapException < ArgumentError; end
+
 class String
   def last_index_of(character)
-    self.length-1 - self.reverse.index(character)
+    (length - 1).downto(0) {|i| return i if self[i] == character}
+    nil
   end
 
   def rest_from(index)
@@ -14,6 +17,7 @@ end
 
 module WordWrap
   def self.wrap(string, line_width)
+    raise WordWrapException.new("String is nil") if string == nil
     return string if string.length <= line_width
     substring = string.substring(line_width-1)
     end_index = has_a_space?(substring) ? substring.last_index_of(" ") : line_width

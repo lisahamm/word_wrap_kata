@@ -1,6 +1,10 @@
 require './lib/word_wrap'
 
 describe WordWrap do
+  it "raises" do
+    expect{WordWrap.wrap(nil, 1)}.to raise_error(WordWrapException)
+  end
+
   it "does not wrap an empty string onto a newline" do
     expect(WordWrap.wrap("", 0)).to eq ""
   end
